@@ -12,17 +12,9 @@ function App() {
   })
 
   useEffect(() =>{
-    //aqui meto el comprobar el peso total
-    //console.log(componentes);
-     console.log(componentes);
-     console.log(totalParciales);
-     console.log(sumaPorcentajes);
-     setPorcentajeTotal(sumaPorcentajes);
-     console.log(porcentajeTotal);
+    setPorcentajeTotal(sumaPorcentajes);
   }, [componentes]);
   
-
-
   const totalParciales = componentes.map( parcial => {
     return parcial.props.peso;
   });
@@ -31,7 +23,13 @@ function App() {
    
   function handleSubmit(event) {
     event.preventDefault();
-    agregarComponente(formData.nombre, formData.peso)
+    if ((Number(formData.peso) + Number(porcentajeTotal)) <= 100) {
+        console.log(Number(formData.peso) + Number(porcentajeTotal));
+        agregarComponente(formData.nombre, formData.peso);
+    } else {
+      console.log(Number(formData.peso) + Number(porcentajeTotal));
+        alert("El porcentaje total excede el 100%");
+    }
   }
 
   const agregarComponente = (nombre, peso) => {
