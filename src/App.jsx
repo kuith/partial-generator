@@ -6,8 +6,6 @@ import Partial from './components/partial';
 function App() {
   const [componentes, setComponentes] = useState([]);
   const [porcentajeTotal, setPorcentajeTotal] = useState(0);
-
-
   const [formData, setFormData] = useState({
     nombre: "",
     peso: 0
@@ -15,27 +13,21 @@ function App() {
 
   useEffect(() =>{
     //aqui meto el comprobar el peso total
-    console.log(componentes)
-
+    //console.log(componentes);
+     console.log(componentes);
+     console.log(totalParciales);
+     console.log(sumaPorcentajes);
+     setPorcentajeTotal(sumaPorcentajes);
+     console.log(porcentajeTotal);
   }, [componentes]);
-
-  //const obtenerProcentajeTotal = componentes.reduce((prev, next)=>prev + next.peso)
-  //console.log(obtenerProcentajeTotal);
-/*   
-
-  const listaVacia = Array.from({ length: 10 }).fill({});
-
-  const lista = listaVacia.map(item => ({
-   price: Math.floor(Math.random() * 100)
-  }));
   
-  console.log(lista);
-  
-  const sumaPrecios = lista.reduce((prev, next) => prev + next.price, 0);
-  
-  console.log(sumaPrecios) */
 
 
+  const totalParciales = componentes.map( parcial => {
+    return parcial.props.peso;
+  });
+
+  const sumaPorcentajes = totalParciales.reduce((prev, next) => Number(prev) + Number(next), 0);
    
   function handleSubmit(event) {
     event.preventDefault();
