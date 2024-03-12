@@ -3,15 +3,21 @@
 
 import '../App.css';
 
-const Partial = ({ nombre , peso=0 }) => {
+const Partial = ({ nombre , peso = 0}) => {
+    const calcularNota = (e) => {
+      
+        var nota = e.target.value;
+        const result = peso * nota
+        console.log(result)
+        return result
+    }
     return (
         <>
-            <div className="parcial">
-                <p>
-                    {nombre} - {peso} %
-                </p>
-                <p>Nota: </p>
-            </div>
+            <h3>
+                {nombre} - {peso} %
+            </h3>
+            <label>Nota</label>
+            <input type="number" onBlur={calcularNota}/>
         </>
     );
 };

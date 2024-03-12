@@ -24,21 +24,34 @@ function App() {
   function handleSubmit(event) {
     event.preventDefault();
     if ((Number(formData.peso) + Number(porcentajeTotal)) <= 100) {
-        console.log(Number(formData.peso) + Number(porcentajeTotal));
-        agregarComponente(formData.nombre, formData.peso);
+        //console.log(Number(formData.peso) + Number(porcentajeTotal));
+        agregarComponente(formData.nombre, formData.peso, formData.nombre+formData.peso);
     } else {
-      console.log(Number(formData.peso) + Number(porcentajeTotal));
+      //console.log(Number(formData.peso) + Number(porcentajeTotal));
         alert("El porcentaje total excede el 100%");
     }
   }
+  const calcularNotaParcial = (resultado) =>{
+    //var notaInicial = e.target.value;
+    console.log("desde el padre: " + resultado);
+    //console.log("El peso es: " + "Y la nota parcial es: " + notaInicial);
+  }
 
   const agregarComponente = (nombre, peso) => {
-    // Crea un nuevo componente
-    //const nuevoComponente = <MiComponente nombre = {nombre} peso = {peso}/>;
-    const nuevoComponente = <Partial nombre = {nombre} peso = {peso}/>
-    // Actualiza el estado con el nuevo componente
+     const nuevoComponente = <Partial 
+      nombre = {nombre} 
+      peso = {peso} 
+      calcularNota={calcularNotaParcial}
+      />
     setComponentes([...componentes, nuevoComponente]);
   };
+
+  const pintarComponentes  = componentes.map((componente, index) => { 
+    return(
+      <div  className="parcial" key={index}>
+        {componente}
+      </div>
+  )})
 
   return (
     <>
@@ -51,11 +64,9 @@ function App() {
           Aceptar
         </button>
       </form>
-
       
-      <div>
-        {componentes.map((componente) => componente)}
-      </div>
+      {pintarComponentes}
+
     </>
   );
   
