@@ -10,6 +10,7 @@ function App() {
     nombre: "",
     peso: 0
   })
+  const [notaFinal, setNotaFinal] = useState(0);
 
   useEffect(() =>{
     setPorcentajeTotal(sumaPorcentajes);
@@ -24,26 +25,37 @@ function App() {
   function handleSubmit(event) {
     event.preventDefault();
     if ((Number(formData.peso) + Number(porcentajeTotal)) <= 100) {
-        //console.log(Number(formData.peso) + Number(porcentajeTotal));
-        agregarComponente(formData.nombre, formData.peso, formData.nombre+formData.peso);
+      const idParcial = Math.random();
+      agregarComponente(formData.nombre, formData.peso, idParcial);
     } else {
-      //console.log(Number(formData.peso) + Number(porcentajeTotal));
-        alert("El porcentaje total excede el 100%");
+      alert("El porcentaje total excede el 100%");
     }
   }
-  const calcularNotaParcial = (resultado) =>{
-    //var notaInicial = e.target.value;
-    console.log("desde el padre: " + resultado);
-    //console.log("El peso es: " + "Y la nota parcial es: " + notaInicial);
+
+  const incrementarNotaFinal = (resultado) =>{
+    console.log("desde el padre a sumar: " + resultado);
+    setNotaFinal(notaFinal + resultado);
   }
 
-  const agregarComponente = (nombre, peso) => {
-     const nuevoComponente = <Partial 
-      nombre = {nombre} 
-      peso = {peso} 
-      calcularNota={calcularNotaParcial}
-      />
-    setComponentes([...componentes, nuevoComponente]);
+  const eliminarParcial = (idParcial, nota) => {
+      console.log("desde el padre a restar: " + idParcial + "nota: " + nota);
+      //primero resto la nota final acumulada
+      //actualizo porcentajes totales
+      //quito el componente del array
+      //setNotaFinal(notaFinal - resultado);
+  };
+
+  const agregarComponente = (nombre, peso, idParcial) => {
+      const nuevoComponente = (
+          <Partial
+              nombre={nombre}
+              peso={peso}
+              mandarResultado={incrementarNotaFinal}
+              eliminarParcial={eliminarParcial}
+              idParcial={idParcial}
+          />
+      );
+      setComponentes([...componentes, nuevoComponente]);
   };
 
   const pintarComponentes  = componentes.map((componente, index) => { 
@@ -66,6 +78,11 @@ function App() {
       </form>
       
       {pintarComponentes}
+
+      <div>
+        <h3>Nota final</h3>
+        <label>{notaFinal}</label>
+      </div>
 
     </>
   );
